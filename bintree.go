@@ -23,7 +23,7 @@ func connect(root *Node) *Node {
 		for i := range Q[:len(Q)-1] {
 			Q[i].Next = Q[i+1] // Wire-up
 		}
-		for range len(Q) { // BSF
+		for range len(Q) { // BFS
 			v, Q = Q[0], Q[1:]
 			for _, u := range []*Node{v.Left, v.Right} {
 				if u != nil {
