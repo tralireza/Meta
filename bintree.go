@@ -35,3 +35,22 @@ func connect(root *Node) *Node {
 
 	return root
 }
+
+// 590 N-ary Tree Postorder Traversal
+type Node590 struct {
+	Val      int
+	Children []*Node590
+}
+
+func postorder(root *Node590) []int {
+	if root == nil {
+		return []int{}
+	}
+
+	Vals := []int{}
+	for i := range root.Children {
+		Vals = append(Vals, postorder(root.Children[i])...)
+	}
+	Vals = append(Vals, root.Val)
+	return Vals
+}

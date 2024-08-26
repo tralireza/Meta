@@ -16,3 +16,10 @@ func Test117(t *testing.T) {
 		log.Print(" ?= ", connect(tree))
 	}
 }
+
+// 590 N-ary Tree Postorder Traversal
+func Test590(t *testing.T) {
+	type N = Node590
+
+	log.Print("", postorder(&N{1, []*N{{3, []*N{{Val: 5}, {Val: 6}}}, {Val: 2}, {Val: 4}}}))
+}
