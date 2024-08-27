@@ -8,6 +8,7 @@ func maxProbability(n int, edges [][]int, succProb []float64, start_node int, en
 	Dist[start_node] = 1
 
 	for range n - 1 {
+		updated := false // terminate early
 		for i, e := range edges {
 			p := succProb[i]
 			v, u := e[0], e[1]
@@ -15,10 +16,15 @@ func maxProbability(n int, edges [][]int, succProb []float64, start_node int, en
 			// Relaxing: 2-way as for undirected graph
 			if Dist[v]*p > Dist[u] {
 				Dist[u] = Dist[v] * p
+				updated = true
 			}
 			if Dist[u]*p > Dist[v] {
 				Dist[v] = Dist[u] * p
+				updated = true
 			}
+		}
+		if !updated {
+			break
 		}
 	}
 
