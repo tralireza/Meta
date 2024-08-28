@@ -1,5 +1,28 @@
 package Meta
 
+// 797m All Paths from Source to Target
+func allPathsSourceTarget(graph [][]int) [][]int {
+	R := [][]int{}
+
+	var r []int
+	var BT func(int)
+	BT = func(v int) {
+		if v == len(graph)-1 {
+			R = append(R, append([]int{}, r...))
+			return
+		}
+		for _, u := range graph[v] {
+			r = append(r, u)
+			BT(u)
+			r = r[:len(r)-1]
+		}
+	}
+
+	r = append(r, 0)
+	BT(0)
+	return R
+}
+
 // 1514m Path with Maximum Probability
 func maxProbability(n int, edges [][]int, succProb []float64, start_node int, end_node int) float64 {
 	// Bellman-Ford
