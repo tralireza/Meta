@@ -7,6 +7,8 @@ import (
 
 // 797m All Paths from Source to Target
 func Test797(t *testing.T) {
+  // graph: is a DAG
+
 	log.Print(" ?= ", allPathsSourceTarget([][]int{{1, 2}, {3}, {3}, {}}))
 	log.Print(" ?= ", allPathsSourceTarget([][]int{{4, 3, 1}, {3, 2, 4}, {3}, {4}, {}}))
 }
