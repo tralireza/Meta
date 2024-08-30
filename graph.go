@@ -114,9 +114,6 @@ func modifiedGraphEdges(n int, edges [][]int, source int, destination int, targe
 			edges[i][2] = math.MaxInt32
 		} else {
 			edges[i][2] = 1
-		}
-
-		if !mTarget {
 			Dist, Prev = make([]int, n), make([]int, n)
 			SPF(source, destination)
 			if Dist[destination] <= target {
