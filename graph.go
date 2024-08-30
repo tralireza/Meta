@@ -1,5 +1,9 @@
 package Meta
 
+import (
+	"math"
+)
+
 // 797m All Paths from Source to Target
 func allPathsSourceTarget(graph [][]int) [][]int {
 	R := [][]int{}
@@ -53,4 +57,77 @@ func maxProbability(n int, edges [][]int, succProb []float64, start_node int, en
 	}
 
 	return Dist[end_node]
+}
+
+// 2699h Modify Graph Edge Weights
+func modifiedGraphEdges(n int, edges [][]int, source int, destination int, target int) [][]int {
+	G := make([][][2]int, n)
+
+	for i, e := range edges {
+		v, u := e[0], e[1]
+		G[v], G[u] = append(G[v], [2]int{u, i}), append(G[u], [2]int{v, i})
+	}
+
+	var Dist, Prev []int
+	SPF := func(src, dst int) {
+		for i := range Dist {
+			Dist[i] = math.MaxInt32
+		}
+
+		Dist[src] = 0
+		Q := []int{src}
+
+		var v int
+		for len(Q) > 0 {
+			v, Q = Q[0], Q[1:]
+			if v != dst {
+				for _, u := range G[v] {
+					u, w := u[0], edges[u[1]][2]
+					if w == -1 {
+						continue
+					}
+					if Dist[v]+w < Dist[u] {
+						Dist[u] = Dist[v] + w // relax edge
+						Prev[u] = v
+
+						Q = append(Q, u)
+					}
+				}
+			}
+		}
+	}
+
+	Dist, Prev = make([]int, n), make([]int, n)
+	SPF(source, destination)
+
+	if Dist[destination] < target {
+		return [][]int{}
+	}
+
+	mTarget := Dist[destination] == target
+	for i := range edges {
+		if edges[i][2] > 0 {
+			continue
+		}
+
+		if mTarget {
+			edges[i][2] = math.MaxInt32
+		} else {
+			edges[i][2] = 1
+		}
+
+		if !mTarget {
+			Dist, Prev = make([]int, n), make([]int, n)
+			SPF(source, destination)
+			if Dist[destination] <= target {
+				mTarget = true
+				edges[i][2] += target - Dist[destination]
+			}
+		}
+	}
+	if mTarget {
+		return edges
+	}
+
+	return [][]int{}
 }
